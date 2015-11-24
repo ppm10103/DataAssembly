@@ -8,5 +8,5 @@
  <br/>
 dvs/config中就是配置文件的样例 <br/>
 
-wangjing ppm10103 AT 163.com
-liuying 372091007 AT qq.com
+wangjing ppm10103 AT 163.com<br/>
+liuying 372091007 AT qq.com<br/>
