@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+
+	<appender name="CONSOLE" class="org.apache.log4j.ConsoleAppender">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="[%d{dd HH:mm:ss,SSS\} %-5p] %X{ip} [%t] %c{2\} - %m%n" />
+		</layout>
+		<!--过滤器设置输出的级别 -->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="INFO" />
+			<param name="levelMax" value="ERROR" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+	<appender name="FILE" class="org.apache.log4j.DailyRollingFileAppender"> 
+		<param name="File" value="/Users/dvs/logs/log4j.log" /> <param name="Append" 
+		value="true" /> <param name="DatePattern" value="'.'yyyy-MM-dd" /> <layout 
+		class="org.apache.log4j.PatternLayout"> <param name="ConversionPattern" value="%d{ABSOLUTE} 
+		%-5p [%c] (%C:%L) - %m%n" /> </layout> </appender>
+		
+	<appender name="ASYNC_MAIL_LOG" class="org.apache.log4j.AsyncAppender">
+		<errorHandler class="org.apache.log4j.helpers.OnlyOnceErrorHandler" />
+		<param name="BufferSize" value="1000" />
+		<param name="LocationInfo" value="true" />
+		<param name="Blocking" value="false" />
+		<appender-ref ref="MAIL" />
+	</appender>
+	<!-- 发邮件（只有ERROR时才会发送！） -->
+	<appender name="MAIL" class="org.apache.log4j.net.SMTPAppender">
+		<param name="threshold" value="ERROR" />
+		<!-- 日志的错误级别 <param name="threshold" value="fatal"/> -->
+		<!-- 缓存文件大小，日志达到512K时发送Email -->
+		<param name="BufferSize" value="512" /><!-- 单位K -->
+		<param name="From" value="szswb@300.cn" />
+		<param name="SMTPHost" value="smtp.300.cn" />
+		<param name="SMTPPort" value="25" />
+		<param name="Subject" value="dvs error message" />
+		<param name="To"
+			value="wangjing@300.cn,liuying@300.cn" />
+		<param name="SMTPUsername" value="szswb@300.cn" />
+		<param name="SMTPPassword" value="q1w2e3r4ys" />
+		<!-- 自定义实现类，支持中文 -->
+		<layout class="cn.ce.utils.PatternLayoutUTF8">
+			<param name="ConversionPattern" value="%-d{yyyy-MM-dd HH:mm:ss.SSS} [%X{ip}] [%p]-[%c] [%l] %m%n" />
+		</layout>
+	</appender>
+	<root>
+		<priority value="info" />
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+		<appender-ref ref="ASYNC_MAIL_LOG" />
+	</root>
+
+</log4j:configuration> 
