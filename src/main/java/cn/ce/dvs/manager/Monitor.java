@@ -25,7 +25,7 @@ public class Monitor implements Callable{
 				}
 				map.put("state", positions.size());
 				map.put("writeCount", writeCount.get());
-				log.info("Monitor: "+map);
+				//log.info("Monitor: "+map);
 				TimeUnit.MILLISECONDS.sleep(2000);
 			}
 		} catch (InterruptedException e) {
