@@ -67,15 +67,16 @@ public class OpLogRead implements Callable<Object>{
 	
 	private OPType getOPType(DBObject dbo){
 		Object op = dbo.get("dvs_mysql_op_type") == null ?  dbo.get("dmlType"):dbo.get("dvs_mysql_op_type");
+		op = op==null?dbo.get("op"):op;
 		if(op == null) return null;
 		
-		if(op.toString().equalsIgnoreCase(OPType.insert.getKey())){
+		if(op.toString().equalsIgnoreCase(OPType.insert.getKey())||op.toString().equalsIgnoreCase("i")){
 			return OPType.insert;
 		}
-		if(op.toString().equalsIgnoreCase(OPType.update.getKey())){
+		if(op.toString().equalsIgnoreCase(OPType.update.getKey())||op.toString().equalsIgnoreCase("u")){
 			return OPType.update;
 		}
-		if(op.toString().equalsIgnoreCase(OPType.delete.getKey())){
+		if(op.toString().equalsIgnoreCase(OPType.delete.getKey())||op.toString().equalsIgnoreCase("d")){
 			return OPType.delete;
 		}
 		
@@ -127,7 +128,7 @@ public class OpLogRead implements Callable<Object>{
 					log.error("not found o2 :" + opLog);
 				}
 			}
-			
+			targetDBO.put("op", op);
 			return targetDBO;
 			
 		}else{
